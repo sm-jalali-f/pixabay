@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Pixabay"
 include(":app")
- 
+include(":data:remote:pixabay")
