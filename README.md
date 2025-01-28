@@ -1,1 +1,3 @@
 # pixabay
+
+.\gradlew spotlessApply
