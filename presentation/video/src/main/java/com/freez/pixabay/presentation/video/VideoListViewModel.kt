@@ -63,4 +63,7 @@ class VideoListViewModel @Inject constructor(private val searchLongVideoUseCase:
         delay(1000L)
         searchVideoPost(query)
     }
+
+    fun changeBookmark(bookmark: Boolean) {
+    }
 }

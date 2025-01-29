@@ -12,9 +12,16 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -81,11 +88,7 @@ fun SearchField(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
 fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
     val videoList = viewModel.videoPost.collectAsState()
     LazyVerticalGrid(
-        // on below line we are setting the
-        // column count for our grid view.
         columns = GridCells.Fixed(2),
-        // on below line we are adding padding
-        // from all sides to our grid view.
         modifier = Modifier.padding(10.dp)
     ) {
         items(videoList.value) { item ->
@@ -94,7 +97,8 @@ fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
                     .fillMaxWidth()
                     .padding(4.dp),
                 videoPost = item,
-                onItemClick = { }
+                onItemClick = { },
+                onBookmarkClick = {videoPost ->  viewModel.changeBookmark(!videoPost.isBookmark)}
             )
         }
     }
@@ -104,7 +108,8 @@ fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
 fun VideoPostGridItem(
     modifier: Modifier = Modifier,
     videoPost: VideoPost,
-    onItemClick: (VideoPost) -> Unit
+    onItemClick: (VideoPost) -> Unit,
+    onBookmarkClick: (VideoPost) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -134,7 +139,7 @@ fun VideoPostGridItem(
                 )
             }
 
-            Column {
+            Column(modifier = Modifier.fillMaxWidth()) {
 
                 Spacer(modifier = Modifier.height(2.dp))
 
@@ -146,6 +151,17 @@ fun VideoPostGridItem(
                 )
 
                 Spacer(modifier = Modifier.height(2.dp))
+
+                IconButton(
+                    modifier = Modifier.align(alignment = Alignment.End),
+                    onClick = { onBookmarkClick(videoPost) }) {
+                    Icon(
+                        imageVector =
+                        if (videoPost.isBookmark) Icons.Filled.Favorite
+                        else Icons.Filled.FavoriteBorder,
+                        contentDescription = "Favorite Button"
+                    )
+                }
 
                 /*Row(
                     modifier = Modifier.padding(vertical = 2.dp)
