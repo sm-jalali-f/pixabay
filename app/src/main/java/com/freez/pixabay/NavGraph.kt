@@ -51,7 +51,7 @@ fun NavGraph(modifier: Modifier = Modifier) {
 fun PixabayAppTopBar(scrollBehavior: TopAppBarScrollBehavior) {
     MediumTopAppBar(
         title = { Text(text = "Pixabay Videos", fontSize = 24.sp) },
-        scrollBehavior = scrollBehavior, 
+        scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.largeTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary
