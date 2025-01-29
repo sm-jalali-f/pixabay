@@ -1,5 +1,6 @@
 package com.freez.pixabay.presentation.video
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,8 +35,10 @@ import com.freez.pixabay.domain.videodomain.entities.VideoPost
 
 
 @Composable
-fun VideoListScreen(navController: NavController,
-    viewModel: VideoListViewModel = hiltViewModel()) {
+fun VideoListScreen(
+    navController: NavController,
+    viewModel: VideoListViewModel = hiltViewModel()
+) {
 
 
     val videoList = viewModel.videoPost.collectAsState()
@@ -49,7 +52,9 @@ fun VideoListScreen(navController: NavController,
     ) {
         items(videoList.value) { item ->
             VideoPostGridItem(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp),
                 videoPost = item,
                 onItemClick = { }
             )
@@ -58,9 +63,11 @@ fun VideoListScreen(navController: NavController,
 }
 
 @Composable
-fun VideoPostGridItem(modifier: Modifier = Modifier,
+fun VideoPostGridItem(
+    modifier: Modifier = Modifier,
     videoPost: VideoPost,
-    onItemClick: (VideoPost) -> Unit) {
+    onItemClick: (VideoPost) -> Unit
+) {
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(3.dp),
@@ -74,17 +81,18 @@ fun VideoPostGridItem(modifier: Modifier = Modifier,
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
                 DisplayImage(
                     imageUrl = videoPost.largestImageUrl(),
                     contentDescription = videoPost.type,
-                    modifier = Modifier.clip(shape = RoundedCornerShape(
-                        topStart = 5.dp,
-                        topEnd = 5.dp
-                    ))
+                    modifier = Modifier.clip(
+                        shape = RoundedCornerShape(
+                            topStart = 5.dp,
+                            topEnd = 5.dp
+                        )
+                    )
                 )
             }
 
@@ -93,6 +101,7 @@ fun VideoPostGridItem(modifier: Modifier = Modifier,
                 Spacer(modifier = Modifier.height(2.dp))
 
                 Text(
+                    modifier = Modifier.padding(7.dp),
                     text = videoPost.publisherUserName.capitalizeFirstChar(),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold
@@ -129,6 +138,7 @@ fun DisplayImage(
     contentDescription: String,
     modifier: Modifier = Modifier,
 ) {
+    Log.d("FUCkED up", "DisplayImage: $imageUrl")
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current).data(imageUrl)
             .size(coil3.size.Size.ORIGINAL) // Set the target size to load the image at.

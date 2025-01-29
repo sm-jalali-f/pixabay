@@ -1,5 +1,6 @@
 package com.freez.pixabay.presentation.video
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.freez.pixabay.domain.videodomain.SearchLongVideoListUseCase
@@ -30,6 +31,7 @@ class VideoListViewModel @Inject constructor(private val searchLongVideoUseCase:
     private fun searchVideoPost(searchKey: String) {
         viewModelScope.launch {
             try {
+                Log.d("VideListViewModel", "searchVideoPost: ")
                 searchLongVideoUseCase.execute(searchKey)
                     .collect { videoPostList ->
                         _videoPosts.value = videoPostList.toMutableList()

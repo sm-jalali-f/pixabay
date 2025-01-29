@@ -12,10 +12,9 @@ class SearchLongVideoListUseCaseImpl @Inject constructor(
 ) :
     SearchLongVideoListUseCase {
     override suspend fun execute(keySearch: String): Flow<List<VideoPost>> {
-//        return flow { emptyList<VideoPost>() }
         return searchPostListRepository.getPostList(keySearch).map { postList ->
             postList.filter { videoPost ->
-                videoPost.duration > 60
+                videoPost.duration > 5
             }
         }
     }

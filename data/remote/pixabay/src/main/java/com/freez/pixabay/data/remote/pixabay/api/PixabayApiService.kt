@@ -1,7 +1,6 @@
 package com.freez.pixabay.data.remote.pixabay.api
 
 import com.freez.pixabay.data.remote.pixabay.models.SearchVideoResponse
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -12,18 +11,18 @@ interface PixabayApiService {
     @GET("videos/")
     suspend fun searchVideo(
         @Query("q") query: String? = null,
-        @Query("lang") language: String = "en",
+        @Query("lang") language: String? = null,
         @Query("id") videoId: String? = null,
-        @Query("video_type") videoType: String = "all",
+        @Query("video_type") videoType: String? = null,
         @Query("category") category: String? = null,
-        @Query("min_width") minWidth: Int = 0,
-        @Query("min_height") minHeight: Int = 0,
-        @Query("editors_choice") editorsChoice: Boolean = false,
-        @Query("safesearch") safeSearch: Boolean = false,
-        @Query("order") order: String = "popular",
-        @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 20,
+        @Query("min_width") minWidth: Int? = null,
+        @Query("min_height") minHeight: Int? = null,
+        @Query("editors_choice") editorsChoice: Boolean? = null,
+        @Query("safesearch") safeSearch: Boolean? = null,
+        @Query("order") order: String? = null,
+        @Query("page") page: Int? = null,
+        @Query("per_page") perPage: Int? = null,
         @Query("callback") callback: String? = null,
-        @Query("pretty") pretty: Boolean = false
-    ): Flow<SearchVideoResponse>
+        @Query("pretty") pretty: Boolean? = null
+    ): SearchVideoResponse
 }

@@ -1,4 +1,5 @@
 [versions]
+adapterKotlinCoroutines = "2.9.0"
 agp = "8.8.0-rc02"
 coilCompose = "3.0.4"
 coilNetworkOkhttp = "3.0.4"
@@ -23,6 +24,7 @@ hilt = "2.51.1"
 navigationRuntimeKtx = "2.8.5"
 
 [libraries]
+adapter-kotlin-coroutines = { module = "com.squareup.retrofit2:adapter-kotlin-coroutines", version.ref = "adapterKotlinCoroutines" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }

@@ -15,10 +15,10 @@ data class VideoPost(
     val isBookmark: Boolean
 ) {
     fun largestImageUrl(): String {
-        return if (videos["large"]?.url.isNullOrEmpty())
-            videos["medium"]?.url ?: ""
+        return if (videos["large"]?.thumbnailUrl.isNullOrEmpty())
+            videos["medium"]?.thumbnailUrl ?: ""
         else
-            videos["large"]?.url ?: ""
+            videos["large"]?.thumbnailUrl ?: ""
 
     }
 }
