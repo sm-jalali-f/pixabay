@@ -22,10 +22,6 @@ class VideoListViewModel @Inject constructor(private val searchLongVideoUseCase:
     private val _loading = MutableStateFlow<Boolean>(false)
     val loading: StateFlow<Boolean> get() = _loading
 
-    init {
-        searchVideoPost("flower")
-    }
-
     private fun loadCacheVideos() {
     }
 
