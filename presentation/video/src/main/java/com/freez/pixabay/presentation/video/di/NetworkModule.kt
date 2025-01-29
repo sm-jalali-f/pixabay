@@ -1,4 +1,4 @@
-package com.freez.pixabay.data.remote.pixabay.di
+package com.freez.pixabay.presentation.video.di
 
 import com.freez.pixabay.data.remote.pixabay.RetrofitHelper
 import com.freez.pixabay.data.remote.pixabay.api.PixabayApiService
@@ -21,7 +21,7 @@ class NetworkModule {
             .baseUrl(RetrofitHelper.BASE_URL)
             .client(OkHttpClient.Builder().addInterceptor { chain ->
                 val originalRequest = chain.request()
-                val newUrl = originalRequest.url().newBuilder()
+                val newUrl = originalRequest.url.newBuilder()
                     .addQueryParameter("key", RetrofitHelper.API_KEY)
                     .build()
                 val newRequest = originalRequest.newBuilder().url(newUrl).build()

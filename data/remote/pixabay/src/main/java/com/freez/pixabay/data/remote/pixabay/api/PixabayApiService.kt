@@ -1,8 +1,7 @@
 package com.freez.pixabay.data.remote.pixabay.api
 
 import com.freez.pixabay.data.remote.pixabay.models.SearchVideoResponse
-import retrofit2.Call
-import retrofit2.Response
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -26,5 +25,5 @@ interface PixabayApiService {
         @Query("per_page") perPage: Int = 20,
         @Query("callback") callback: String? = null,
         @Query("pretty") pretty: Boolean = false
-    ): Call<SearchVideoResponse>
+    ): Flow<SearchVideoResponse>
 }

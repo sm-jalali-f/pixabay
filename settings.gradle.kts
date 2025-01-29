@@ -22,3 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "Pixabay"
 include(":app")
 include(":data:remote:pixabay")
+include(":data:videoRepository")
+include(":domain:videoDomain")
+include(":presentation:video")
+include(":core:util")

@@ -45,7 +45,7 @@ kapt {
     correctErrorTypes = true
 }
 dependencies {
-
+    implementation(project(":presentation:video"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -65,4 +65,7 @@ dependencies {
     //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    //navigation
+    implementation(libs.androidx.navigation.compose)
 }

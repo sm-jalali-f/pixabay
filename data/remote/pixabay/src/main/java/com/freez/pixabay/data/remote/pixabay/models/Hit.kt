@@ -3,8 +3,8 @@ package com.freez.pixabay.data.remote.pixabay.models
 data class Hit(
     val comments: Int,
     val downloads: Int,
-    val duration: Int,
-    val id: Int,
+    val duration: Long,
+    val id: Long,
     val likes: Int,
     val pageURL: String,
     val tags: String,
