@@ -18,7 +18,7 @@ class BookmarkRepositoryImpl @Inject constructor(
         return bookmarkedVideoDao.removeBookmark(videoId)
     }
 
-    override suspend fun isVideBookmarked(videoId: Long): Flow<Boolean> {
+    override suspend fun isVideoBookmarked(videoId: Long): Flow<Boolean> {
         return bookmarkedVideoDao.isBookmarked(videoId)
     }
 }

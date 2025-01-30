@@ -84,4 +84,8 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.ktx)
+
+    // paging
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
 }
