@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -36,9 +37,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
@@ -61,13 +62,14 @@ fun VideoListScreen(
 @Composable
 fun SearchField(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
     val searchQuery = rememberSaveable { mutableStateOf("Flower") }
-    // Trigger the search when the composable is first created
-    LaunchedEffect(Unit) {
-        viewModel.onSearchQueryChanged(searchQuery.value) // Trigger search with default value
+
+    LaunchedEffect(Unit) { // Trigger first created
+        viewModel.onSearchQueryChanged(searchQuery.value)
     }
     OutlinedTextField(
         value = searchQuery.value,
         maxLines = 1,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         onValueChange = { newValue: String ->
             searchQuery.value = newValue
             viewModel.onSearchQueryChanged(newValue)
