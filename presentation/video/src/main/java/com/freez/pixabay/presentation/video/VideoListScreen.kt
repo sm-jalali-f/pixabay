@@ -2,8 +2,10 @@ package com.freez.pixabay.presentation.video
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,8 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -98,7 +98,7 @@ fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
                     .padding(4.dp),
                 videoPost = item,
                 onItemClick = { },
-                onBookmarkClick = {videoPost ->  viewModel.changeBookmark(!videoPost.isBookmark)}
+                onBookmarkClick = { videoPost -> viewModel.changeBookmark(!videoPost.isBookmark) }
             )
         }
     }
@@ -139,10 +139,9 @@ fun VideoPostGridItem(
                 )
             }
 
-            Column(modifier = Modifier.fillMaxWidth()) {
-
-                Spacer(modifier = Modifier.height(2.dp))
-
+            Row(modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
                     modifier = Modifier.padding(7.dp),
                     text = videoPost.publisherUserName.capitalizeFirstChar(),
@@ -150,10 +149,8 @@ fun VideoPostGridItem(
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(2.dp))
 
                 IconButton(
-                    modifier = Modifier.align(alignment = Alignment.End),
                     onClick = { onBookmarkClick(videoPost) }) {
                     Icon(
                         imageVector =
