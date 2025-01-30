@@ -25,4 +25,16 @@ data class VideoPost(
     val tinyVideoThumbnailUrl: String,
     var isBookmark: Boolean,
 ) : Parcelable {
+
+    fun getVideoUrl(): String {
+        if (mediumVideoUrl.isNotEmpty())
+            return mediumVideoUrl
+        else if (largeVideoUrl.isNotEmpty())
+            return largeVideoUrl
+        else if (smallVideoUrl.isNotEmpty())
+            return smallVideoUrl
+        else if (tinyVideoUrl.isNotEmpty())
+            return tinyVideoUrl
+        return ""
+    }
 }

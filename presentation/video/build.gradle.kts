@@ -84,4 +84,9 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.ktx)
+    
+    // ExoPlayer
+    implementation( "com.google.android.exoplayer:exoplayer:2.19.1")
+    // Optional: for UI components like PlayerView
+    implementation ("com.google.android.exoplayer:exoplayer-ui:2.19.1")
 }
