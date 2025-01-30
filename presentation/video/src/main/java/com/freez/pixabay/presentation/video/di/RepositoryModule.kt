@@ -3,9 +3,11 @@ package com.freez.pixabay.presentation.video.di
 import com.freez.pixabay.data.local.roomdatabase.dao.BookmarkedVideoDao
 import com.freez.pixabay.data.remote.pixabay.api.PixabayApiService
 import com.freez.pixabay.data.videorepository.BookmarkRepositoryImpl
-import com.freez.pixabay.data.videorepository.SearchPostListRepositoryImpl
+import com.freez.pixabay.data.videorepository.SearchVideoListRepositoryImpl
+import com.freez.pixabay.data.videorepository.VideoDetailRepositoryImpl
 import com.freez.pixabay.domain.videodomain.repository.BookmarkRepository
-import com.freez.pixabay.domain.videodomain.repository.SearchPostListRepository
+import com.freez.pixabay.domain.videodomain.repository.SearchVideoListRepository
+import com.freez.pixabay.domain.videodomain.repository.VideoDetailRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +19,8 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideSearchPostListRepository(apiService: PixabayApiService): SearchPostListRepository {
-        return SearchPostListRepositoryImpl(apiService)
+    fun provideSearchPostListRepository(apiService: PixabayApiService): SearchVideoListRepository {
+        return SearchVideoListRepositoryImpl(apiService)
     }
 
     @Provides
@@ -26,4 +28,11 @@ object RepositoryModule {
     fun provideBookmarkRepository(bookmarkedVideoDao: BookmarkedVideoDao): BookmarkRepository {
         return BookmarkRepositoryImpl(bookmarkedVideoDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideVideoDetailRepository(apiService: PixabayApiService): VideoDetailRepository {
+        return VideoDetailRepositoryImpl(apiService)
+    }
+
 }

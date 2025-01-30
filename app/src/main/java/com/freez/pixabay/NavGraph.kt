@@ -13,11 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.freez.pixabay.presentation.video.VideoDetailScreen
-import com.freez.pixabay.presentation.video.VideoListScreen
+import androidx.navigation.navArgument
+import com.freez.pixabay.core.util.Screen
+import com.freez.pixabay.presentation.video.videoDetail.VideoDetailScreen
+import com.freez.pixabay.presentation.video.videoList.VideoListScreen
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,8 +40,14 @@ fun NavGraph(modifier: Modifier = Modifier) {
             composable(route = Screen.VideoListScreen.route) {
                 VideoListScreen(navController = navController)
             }
-            composable(route = Screen.VideoDetailScreen.route) {
-                VideoDetailScreen()
+            composable(
+                route = Screen.VideoDetailScreen.route,
+                arguments = listOf(navArgument("videoId") { type = NavType.LongType }),
+            ) { backStackEntry ->
+                val videoId = backStackEntry.arguments?.getLong("videoId")
+                videoId?.let {
+                    VideoDetailScreen(videoId = it)
+                }
             }
         }
     }

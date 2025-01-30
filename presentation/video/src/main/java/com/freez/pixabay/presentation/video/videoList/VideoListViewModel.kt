@@ -1,4 +1,4 @@
-package com.freez.pixabay.presentation.video
+package com.freez.pixabay.presentation.video.videoList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.hilt.android)
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -46,6 +47,8 @@ kapt {
 }
 dependencies {
     implementation(project(":presentation:video"))
+    implementation(project(":core:util"))
+    implementation(project(":domain:videoDomain"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -68,4 +71,6 @@ dependencies {
 
     // navigation
     implementation(libs.androidx.navigation.compose)
+
+    implementation( "org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
 }

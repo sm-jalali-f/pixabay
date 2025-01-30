@@ -1,5 +1,9 @@
 package com.freez.pixabay.domain.videodomain.entities
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class VideoPost(
     val id: Long,
     val duration: Long,
@@ -11,13 +15,14 @@ data class VideoPost(
     val type: String,
     val publisherUserName: String,
     val publisherUserImageUrl: String,
-    val videos: Map<String, Video>,
-    var isBookmark: Boolean = false,
-) {
-    fun largestImageUrl(): String {
-        return if (videos["large"]?.thumbnailUrl.isNullOrEmpty()) {
-            videos["medium"]?.thumbnailUrl ?: ""
-        } else
-            videos["large"]?.thumbnailUrl ?: ""
-    }
+    val largeVideoUrl: String,
+    val largeVideoThumbnailUrl: String,
+    val mediumVideoUrl: String,
+    val mediumVideoThumbnailUrl: String,
+    val smallVideoUrl: String,
+    val smallVideoThumbnailUrl: String,
+    val tinyVideoUrl: String,
+    val tinyVideoThumbnailUrl: String,
+    var isBookmark: Boolean,
+) : Parcelable {
 }

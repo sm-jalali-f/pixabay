@@ -1,17 +1,23 @@
-package com.freez.pixabay.presentation.video
+package com.freez.pixabay.presentation.video.videoList
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -24,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
+import com.freez.pixabay.core.util.Screen
 import com.freez.pixabay.core.util.capitalizeFirstChar
 import com.freez.pixabay.domain.videodomain.entities.VideoPost
 
@@ -55,7 +63,7 @@ fun VideoListScreen(
     Column {
         SearchField(viewModel = viewModel)
         Spacer(modifier = Modifier.height(5.dp))
-        GridVide(viewModel = viewModel)
+        GridVideo(viewModel = viewModel, navController = navController)
     }
 }
 
@@ -82,10 +90,14 @@ fun SearchField(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
 }
 
 @Composable
-fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
+fun GridVideo(modifier: Modifier = Modifier,
+    viewModel: VideoListViewModel,
+    navController: NavController) {
+
     val videoList = viewModel.videoPost.collectAsState()
+
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(1),
         modifier = Modifier.padding(10.dp),
     ) {
         items(videoList.value) { item ->
@@ -94,7 +106,10 @@ fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
                     .fillMaxWidth()
                     .padding(4.dp),
                 videoPost = item,
-                onItemClick = { },
+                onItemClick = { videoPost ->
+                    navController.navigate(
+                        Screen.VideoDetailScreen.createRoute(videoId = videoPost.id))
+                },
                 onBookmarkClick = { videoPost ->
                     viewModel.changeBookmark(videoPost.id, !videoPost.isBookmark)
                 },
@@ -103,6 +118,7 @@ fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun VideoPostGridItem(
     modifier: Modifier = Modifier,
@@ -116,18 +132,21 @@ fun VideoPostGridItem(
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
+        onClick = { onItemClick(videoPost) }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth(),
         ) {
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 DisplayImage(
-                    imageUrl = videoPost.largestImageUrl(),
+                    id = videoPost.id,
+                    imageUrl = videoPost.mediumVideoThumbnailUrl,
                     contentDescription = videoPost.type,
                     modifier = Modifier.clip(
                         shape = RoundedCornerShape(
@@ -143,12 +162,8 @@ fun VideoPostGridItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text(
-                    modifier = Modifier.padding(7.dp),
-                    text = videoPost.publisherUserName.capitalizeFirstChar(),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold,
-                )
+                UserInfo(profileUrl = videoPost.publisherUserImageUrl,
+                    profileName = videoPost.publisherUserName)
 
                 IconButton(
                     onClick = { onBookmarkClick(videoPost) },
@@ -162,34 +177,43 @@ fun VideoPostGridItem(
                     )
                 }
 
-                /*Row(
-                    modifier = Modifier.padding(vertical = 2.dp)
-                ) {
-                    (0 until 2).forEach {
-
-                        val tag = galleryImage.tags.displayAsTags()[it]
-                        GalleryText(
+            }
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                videoPost.tags.forEach { tag ->
+                    Surface(
+                        modifier = Modifier.padding(4.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        color = Color.LightGray
+                    ) {
+                        Text(
                             text = tag,
-                            style = MaterialTheme.typography.caption,
-                            fontFamily = FontFamily.Default,
-                            color = Color.Gray,
-                            fontSize = 12.sp
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.bodySmall
                         )
-
-                        Spacer(modifier = Modifier.width(3.dp))
                     }
-                }*/
+                }
             }
         }
     }
 }
 
 @Composable
-fun DisplayImage(
-    imageUrl: String,
-    contentDescription: String,
-    modifier: Modifier = Modifier,
-) {
+fun UserInfo(modifier: Modifier = Modifier, profileUrl: String?, profileName: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Avatar(modifier = Modifier.align(Alignment.Top), profileUrl)
+
+        Text(
+            text = profileName.capitalizeFirstChar(),
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Bold,
+        )
+    }
+}
+
+@Composable
+fun Avatar(modifier: Modifier = Modifier, imageUrl: String?) {
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current).data(imageUrl)
             .size(coil3.size.Size.ORIGINAL) // Set the target size to load the image at.
@@ -197,8 +221,35 @@ fun DisplayImage(
     )
     Image(
         modifier = Modifier
+            .padding(horizontal = 4.dp)
+            .size(30.dp)
+            .border(1.5.dp, MaterialTheme.colorScheme.outline, CircleShape)
+            .border(3.dp, MaterialTheme.colorScheme.surface, CircleShape)
+            .clip(CircleShape),
+        painter = painter,
+        contentScale = ContentScale.Crop,
+        contentDescription = null,
+    )
+}
+
+@Composable
+fun DisplayImage(
+    id: Long,
+    imageUrl: String,
+    contentDescription: String,
+    modifier: Modifier = Modifier,
+) {
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current).data(imageUrl)
+            .size(coil3.size.Size.ORIGINAL) // Set the target size to load the image at.
+            .memoryCacheKey("thumbnail-$id")
+            .build(),
+    )
+    Image(
+        modifier = Modifier
+            .defaultMinSize(minHeight = 50.dp)
             .fillMaxWidth()
-            .height(104.dp)
+//            .height(104.dp)
             .clip(RoundedCornerShape(size = 8.dp)),
         painter = painter,
         contentScale = ContentScale.Fit,
