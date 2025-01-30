@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":domain:videoDomain"))
     implementation(project(":data:videoRepository"))
     implementation(project(":data:remote:pixabay"))
+    implementation(project(":data:local:roomDatabase"))
     implementation(project(":core:util"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -78,8 +79,11 @@ dependencies {
     //retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation (libs.okhttp)
+    implementation (libs.logging.interceptor)
+
+    // Room
+    implementation(libs.androidx.room.ktx)
 
 
 

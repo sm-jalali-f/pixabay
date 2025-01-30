@@ -12,7 +12,7 @@ data class VideoPost(
     val publisherUserName: String,
     val publisherUserImageUrl: String,
     val videos: Map<String, Video>,
-    val isBookmark: Boolean = false
+    var isBookmark: Boolean = false
 ) {
     fun largestImageUrl(): String {
         return if (videos["large"]?.thumbnailUrl.isNullOrEmpty())

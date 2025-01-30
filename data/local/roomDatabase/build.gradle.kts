@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.freez.pixabay.data.videorepository"
+    namespace = "com.freez.pixabay.data.local.roomdatabase"
     compileSdk = 35
 
     defaultConfig {
@@ -35,9 +35,6 @@ kapt {
     correctErrorTypes = true
 }
 dependencies {
-    implementation(project(":domain:videoDomain"))
-    implementation(project(":data:remote:pixabay"))
-    implementation(project(":data:local:roomDatabase"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -46,7 +43,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //hilt
+    // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    // room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }

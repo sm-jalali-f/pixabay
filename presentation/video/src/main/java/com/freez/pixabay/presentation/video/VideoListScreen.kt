@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
@@ -98,7 +99,9 @@ fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
                     .padding(4.dp),
                 videoPost = item,
                 onItemClick = { },
-                onBookmarkClick = { videoPost -> viewModel.changeBookmark(!videoPost.isBookmark) }
+                onBookmarkClick = { videoPost ->
+                    viewModel.changeBookmark(videoPost.id, !videoPost.isBookmark)
+                }
             )
         }
     }
@@ -189,7 +192,6 @@ fun DisplayImage(
     contentDescription: String,
     modifier: Modifier = Modifier,
 ) {
-    Log.d("FUCkED up", "DisplayImage: $imageUrl")
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current).data(imageUrl)
             .size(coil3.size.Size.ORIGINAL) // Set the target size to load the image at.
@@ -204,31 +206,4 @@ fun DisplayImage(
         contentScale = ContentScale.Fit,
         contentDescription = contentDescription
     )
-    /*val imageRequest = if(transformation != null) {
-        ImageRequest.Builder(LocalContext.current)
-            .data(imageUrl)
-            .scale(Scale.FILL)
-            .crossfade(true)
-            .crossfade(500)
-            .error(R.drawable.no_internet)
-            .transformations(transformation)
-            .build()
-    } else {
-        ImageRequest.Builder(LocalContext.current)
-            .data(imageUrl)
-            .scale(Scale.FILL)
-            .error(R.drawable.no_internet)
-            .crossfade(true)
-            .crossfade(500)
-            .build()
-    }
-    SubcomposeAsyncImage(
-        model = imageRequest,
-        contentDescription = contentDescription,
-        modifier = modifier,
-        loading = {
-            CircularProgressIndicator()
-        },
-        contentScale = ContentScale.Crop
-    )*/
 }

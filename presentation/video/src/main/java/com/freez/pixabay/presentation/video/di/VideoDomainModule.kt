@@ -1,7 +1,10 @@
 package com.freez.pixabay.presentation.video.di
 
+import com.freez.pixabay.domain.videodomain.BookmarkUseCase
 import com.freez.pixabay.domain.videodomain.SearchLongVideoListUseCase
+import com.freez.pixabay.domain.videodomain.impl.BookmarkUseCaseImpl
 import com.freez.pixabay.domain.videodomain.impl.SearchLongVideoListUseCaseImpl
+import com.freez.pixabay.domain.videodomain.repository.BookmarkRepository
 import com.freez.pixabay.domain.videodomain.repository.SearchPostListRepository
 import dagger.Module
 import dagger.Provides
@@ -19,7 +22,16 @@ abstract class VideoDomainModule {
 @InstallIn(ViewModelComponent::class)
 class VideoDomainModule {
     @Provides
-    fun ProvideSearchLongVideoListUseCase(repository: SearchPostListRepository): SearchLongVideoListUseCase {
-        return SearchLongVideoListUseCaseImpl(repository)
+    fun provideSearchLongVideoListUseCase(
+        videoRepository: SearchPostListRepository,
+        bookmarkRepository: BookmarkRepository
+    ): SearchLongVideoListUseCase {
+
+        return SearchLongVideoListUseCaseImpl(videoRepository, bookmarkRepository)
+    }
+
+    @Provides
+    fun provideBookmarkUseCase(bookmarkRepository: BookmarkRepository): BookmarkUseCase {
+        return BookmarkUseCaseImpl(bookmarkRepository)
     }
 }

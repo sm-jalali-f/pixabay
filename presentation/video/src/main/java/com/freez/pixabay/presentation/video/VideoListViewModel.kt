@@ -1,10 +1,13 @@
 package com.freez.pixabay.presentation.video
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.freez.pixabay.domain.videodomain.BookmarkUseCase
 import com.freez.pixabay.domain.videodomain.SearchLongVideoListUseCase
 import com.freez.pixabay.domain.videodomain.entities.VideoPost
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,17 +16,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoListViewModel @Inject constructor(private val searchLongVideoUseCase: SearchLongVideoListUseCase) :
-    ViewModel() {
+class VideoListViewModel @Inject constructor(
+    private val searchLongVideoUseCase: SearchLongVideoListUseCase,
+    private val bookmarkUseCase: BookmarkUseCase
+
+) : ViewModel() {
 
     private var _videoPosts = MutableStateFlow<List<VideoPost>>(emptyList())
     val videoPost: StateFlow<List<VideoPost>> get() = _videoPosts
 
-    private val _loading = MutableStateFlow<Boolean>(false)
-    val loading: StateFlow<Boolean> get() = _loading
-
-    private fun loadCacheVideos() {
-    }
 
     private fun searchVideoPost(searchKey: String) {
         viewModelScope.launch {
@@ -35,7 +36,7 @@ class VideoListViewModel @Inject constructor(private val searchLongVideoUseCase:
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                _loading.value = false
+//                _loading.value = false
             }
         }
 
@@ -43,11 +44,9 @@ class VideoListViewModel @Inject constructor(private val searchLongVideoUseCase:
 
     private var searchJob: Job? = null
 
-    // Function to handle search input
     fun onSearchQueryChanged(query: String) {
         searchJob?.cancel()
 
-        // Debounce API call
         searchJob = viewModelScope.launch {
             delay(500L)
             if (query.isNotEmpty()) {
@@ -64,6 +63,9 @@ class VideoListViewModel @Inject constructor(private val searchLongVideoUseCase:
         searchVideoPost(query)
     }
 
-    fun changeBookmark(bookmark: Boolean) {
+    fun changeBookmark(videId: Long, bookmark: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            bookmarkUseCase.changeBookmark(videId, bookmark)
+        }
     }
 }
