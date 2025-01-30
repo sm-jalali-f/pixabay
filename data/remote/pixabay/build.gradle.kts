@@ -21,7 +21,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -46,14 +46,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.mockwebserver)
 
-    //retrofit
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
-    //hilt
+    // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-
-
-
 }

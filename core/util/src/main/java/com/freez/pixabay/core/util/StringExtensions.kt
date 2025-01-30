@@ -4,8 +4,10 @@ import java.util.Locale
 
 fun String.capitalizeFirstChar(): String {
     return this.replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(
-            Locale.US
-        ) else it.toString()
+        if (it.isLowerCase()) {
+            it.titlecase(
+                Locale.US,
+            )
+        } else it.toString()
     }
 }

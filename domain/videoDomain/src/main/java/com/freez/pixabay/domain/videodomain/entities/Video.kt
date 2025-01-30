@@ -6,5 +6,5 @@ data class Video(
     val width: Int,
     val height: Int,
     val size: Int,
-    val thumbnailUrl: String
+    val thumbnailUrl: String,
 )

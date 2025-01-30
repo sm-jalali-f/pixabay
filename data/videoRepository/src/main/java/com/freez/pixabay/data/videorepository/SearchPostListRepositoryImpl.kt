@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SearchPostListRepositoryImpl @Inject constructor(
-    private val apiService: PixabayApiService
+    private val apiService: PixabayApiService,
 ) : SearchPostListRepository {
 
     override suspend fun getPostList(searchKey: String): Flow<List<VideoPost>> {
@@ -28,34 +28,38 @@ class SearchPostListRepositoryImpl @Inject constructor(
                 isBookmark = false,
                 videos = hashMapOf(
                     "large" to Video(
-                        "large", videoData.videos.large.url,
+                        "large",
+                        videoData.videos.large.url,
                         videoData.videos.large.size,
                         height = videoData.videos.large.height,
                         size = videoData.videos.large.size,
-                        thumbnailUrl = videoData.videos.large.thumbnail
+                        thumbnailUrl = videoData.videos.large.thumbnail,
                     ),
                     "medium" to Video(
-                        "medium", videoData.videos.medium.url,
+                        "medium",
+                        videoData.videos.medium.url,
                         videoData.videos.medium.size,
                         height = videoData.videos.medium.height,
                         size = videoData.videos.medium.size,
-                        thumbnailUrl = videoData.videos.medium.thumbnail
+                        thumbnailUrl = videoData.videos.medium.thumbnail,
                     ),
                     "tiny" to Video(
-                        "tiny", videoData.videos.tiny.url,
+                        "tiny",
+                        videoData.videos.tiny.url,
                         videoData.videos.tiny.size,
                         height = videoData.videos.tiny.height,
                         size = videoData.videos.tiny.size,
-                        thumbnailUrl = videoData.videos.tiny.thumbnail
+                        thumbnailUrl = videoData.videos.tiny.thumbnail,
                     ),
                     "small" to Video(
-                        "small", videoData.videos.small.url,
+                        "small",
+                        videoData.videos.small.url,
                         videoData.videos.small.size,
                         height = videoData.videos.small.height,
                         size = videoData.videos.small.size,
-                        thumbnailUrl = videoData.videos.small.thumbnail
-                    )
-                )
+                        thumbnailUrl = videoData.videos.small.thumbnail,
+                    ),
+                ),
             )
         }
         return flow {

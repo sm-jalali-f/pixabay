@@ -5,5 +5,5 @@ data class Large(
     val size: Int,
     val thumbnail: String,
     val url: String,
-    val width: Int
+    val width: Int,
 )

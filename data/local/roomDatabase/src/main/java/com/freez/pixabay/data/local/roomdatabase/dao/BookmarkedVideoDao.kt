@@ -21,5 +21,4 @@ interface BookmarkedVideoDao {
 
     @Query("SELECT EXISTS (SELECT 1 FROM bookmarked_videos WHERE videoId = :videoId)")
     fun isBookmarked(videoId: Long): Flow<Boolean>
-
 }

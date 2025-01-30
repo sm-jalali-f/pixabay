@@ -12,7 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
@@ -35,12 +34,12 @@ class NetworkModule {
             .baseUrl(RetrofitHelper.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
-            .build();
+            .build()
     }
 
     @Singleton
     @Provides
     fun providesApiService(retrofit: Retrofit): PixabayApiService {
-        return retrofit.create(PixabayApiService::class.java);
+        return retrofit.create(PixabayApiService::class.java)
     }
 }

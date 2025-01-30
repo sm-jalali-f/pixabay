@@ -9,7 +9,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
-import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 
@@ -51,7 +50,7 @@ class PixabayApiTest {
                         }
                     ]
                 }
-            """.trimIndent()
+                """.trimIndent(),
             )
 
         mockWebServer.enqueue(mockResponse)

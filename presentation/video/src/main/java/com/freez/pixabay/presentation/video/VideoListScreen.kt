@@ -1,6 +1,5 @@
 package com.freez.pixabay.presentation.video
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,20 +45,16 @@ import coil3.request.ImageRequest
 import com.freez.pixabay.core.util.capitalizeFirstChar
 import com.freez.pixabay.domain.videodomain.entities.VideoPost
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoListScreen(
     navController: NavController,
-    viewModel: VideoListViewModel = hiltViewModel()
+    viewModel: VideoListViewModel = hiltViewModel(),
 ) {
-
     Column {
-
         SearchField(viewModel = viewModel)
         Spacer(modifier = Modifier.height(5.dp))
         GridVide(viewModel = viewModel)
-
     }
 }
 
@@ -80,9 +75,8 @@ fun SearchField(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        label = { Text("Search...") }
+        label = { Text("Search...") },
     )
-
 }
 
 @Composable
@@ -90,7 +84,7 @@ fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
     val videoList = viewModel.videoPost.collectAsState()
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.padding(10.dp)
+        modifier = Modifier.padding(10.dp),
     ) {
         items(videoList.value) { item ->
             VideoPostGridItem(
@@ -101,7 +95,7 @@ fun GridVide(modifier: Modifier = Modifier, viewModel: VideoListViewModel) {
                 onItemClick = { },
                 onBookmarkClick = { videoPost ->
                     viewModel.changeBookmark(videoPost.id, !videoPost.isBookmark)
-                }
+                },
             )
         }
     }
@@ -112,23 +106,23 @@ fun VideoPostGridItem(
     modifier: Modifier = Modifier,
     videoPost: VideoPost,
     onItemClick: (VideoPost) -> Unit,
-    onBookmarkClick: (VideoPost) -> Unit
+    onBookmarkClick: (VideoPost) -> Unit,
 ) {
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(3.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
+            containerColor = Color.White,
+        ),
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 DisplayImage(
                     imageUrl = videoPost.largestImageUrl(),
@@ -136,30 +130,33 @@ fun VideoPostGridItem(
                     modifier = Modifier.clip(
                         shape = RoundedCornerShape(
                             topStart = 5.dp,
-                            topEnd = 5.dp
-                        )
-                    )
+                            topEnd = 5.dp,
+                        ),
+                    ),
                 )
             }
 
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
                 Text(
                     modifier = Modifier.padding(7.dp),
                     text = videoPost.publisherUserName.capitalizeFirstChar(),
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
 
-
                 IconButton(
-                    onClick = { onBookmarkClick(videoPost) }) {
+                    onClick = { onBookmarkClick(videoPost) },
+                ) {
                     Icon(
                         imageVector =
-                        if (videoPost.isBookmark) Icons.Filled.Favorite
-                        else Icons.Filled.FavoriteBorder,
-                        contentDescription = "Favorite Button"
+                        if (videoPost.isBookmark) {
+                            Icons.Filled.Favorite
+                        } else Icons.Filled.FavoriteBorder,
+                        contentDescription = "Favorite Button",
                     )
                 }
 
@@ -185,7 +182,6 @@ fun VideoPostGridItem(
     }
 }
 
-
 @Composable
 fun DisplayImage(
     imageUrl: String,
@@ -195,7 +191,7 @@ fun DisplayImage(
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current).data(imageUrl)
             .size(coil3.size.Size.ORIGINAL) // Set the target size to load the image at.
-            .build()
+            .build(),
     )
     Image(
         modifier = Modifier
@@ -204,6 +200,6 @@ fun DisplayImage(
             .clip(RoundedCornerShape(size = 8.dp)),
         painter = painter,
         contentScale = ContentScale.Fit,
-        contentDescription = contentDescription
+        contentDescription = contentDescription,
     )
 }

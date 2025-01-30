@@ -1,6 +1,5 @@
 package com.freez.pixabay.presentation.video
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.freez.pixabay.domain.videodomain.BookmarkUseCase
@@ -18,13 +17,12 @@ import javax.inject.Inject
 @HiltViewModel
 class VideoListViewModel @Inject constructor(
     private val searchLongVideoUseCase: SearchLongVideoListUseCase,
-    private val bookmarkUseCase: BookmarkUseCase
+    private val bookmarkUseCase: BookmarkUseCase,
 
 ) : ViewModel() {
 
     private var _videoPosts = MutableStateFlow<List<VideoPost>>(emptyList())
     val videoPost: StateFlow<List<VideoPost>> get() = _videoPosts
-
 
     private fun searchVideoPost(searchKey: String) {
         viewModelScope.launch {
@@ -39,7 +37,6 @@ class VideoListViewModel @Inject constructor(
 //                _loading.value = false
             }
         }
-
     }
 
     private var searchJob: Job? = null
@@ -57,8 +54,9 @@ class VideoListViewModel @Inject constructor(
     }
 
     private suspend fun performApiSearch(query: String) {
-        if (query.isEmpty())
+        if (query.isEmpty()) {
             return
+        }
         delay(1000L)
         searchVideoPost(query)
     }

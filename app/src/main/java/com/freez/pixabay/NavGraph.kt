@@ -27,7 +27,7 @@ fun NavGraph(modifier: Modifier = Modifier) {
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { PixabayAppTopBar(scrollBehavior) }
+        topBar = { PixabayAppTopBar(scrollBehavior) },
     ) { innerPadding ->
         NavHost(
             modifier = Modifier.padding(innerPadding),
@@ -40,10 +40,8 @@ fun NavGraph(modifier: Modifier = Modifier) {
             composable(route = Screen.VideoDetailScreen.route) {
                 VideoDetailScreen()
             }
-
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,8 +52,7 @@ fun PixabayAppTopBar(scrollBehavior: TopAppBarScrollBehavior) {
         scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.largeTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary
-        )
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+        ),
     )
 }
-

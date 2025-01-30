@@ -24,9 +24,8 @@ class VideoDomainModule {
     @Provides
     fun provideSearchLongVideoListUseCase(
         videoRepository: SearchPostListRepository,
-        bookmarkRepository: BookmarkRepository
+        bookmarkRepository: BookmarkRepository,
     ): SearchLongVideoListUseCase {
-
         return SearchLongVideoListUseCaseImpl(videoRepository, bookmarkRepository)
     }
 

@@ -1,6 +1,5 @@
 package com.freez.pixabay.domain.videodomain.impl
 
-import android.util.Log
 import com.freez.pixabay.domain.videodomain.SearchLongVideoListUseCase
 import com.freez.pixabay.domain.videodomain.entities.VideoPost
 import com.freez.pixabay.domain.videodomain.repository.BookmarkRepository
@@ -14,9 +13,8 @@ import javax.inject.Inject
 
 class SearchLongVideoListUseCaseImpl @Inject constructor(
     private val searchPostListRepository: SearchPostListRepository,
-    private val bookmarkRepository: BookmarkRepository
+    private val bookmarkRepository: BookmarkRepository,
 ) : SearchLongVideoListUseCase {
-
 
     @OptIn(FlowPreview::class)
     override suspend fun execute(keySearch: String): Flow<List<VideoPost>> {

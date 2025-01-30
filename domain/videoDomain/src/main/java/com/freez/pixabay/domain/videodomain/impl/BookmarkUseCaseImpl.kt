@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class BookmarkUseCaseImpl @Inject constructor(
-    private val bookmarkRepository: BookmarkRepository
+    private val bookmarkRepository: BookmarkRepository,
 ) : BookmarkUseCase {
     override suspend fun changeBookmark(videoId: Long, isBookmark: Boolean) {
-        return if (isBookmark)
+        return if (isBookmark) {
             bookmarkRepository.bookmarkVideo(videoId)
-        else
+        } else
             bookmarkRepository.removeBookmarkVideo(videoId)
     }
 

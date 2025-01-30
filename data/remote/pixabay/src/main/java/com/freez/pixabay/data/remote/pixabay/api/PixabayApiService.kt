@@ -23,6 +23,6 @@ interface PixabayApiService {
         @Query("page") page: Int? = null,
         @Query("per_page") perPage: Int? = null,
         @Query("callback") callback: String? = null,
-        @Query("pretty") pretty: Boolean? = null
+        @Query("pretty") pretty: Boolean? = null,
     ): SearchVideoResponse
 }

@@ -13,5 +13,5 @@ data class Hit(
     val userImageURL: String,
     val user_id: Int,
     val videos: Videos,
-    val views: Int
+    val views: Int,
 )
