@@ -27,7 +27,7 @@ class SearchLongVideoListUseCaseImpl @Inject constructor(
                         }
                 }.let { flows ->
                     combine(flows) { updatedVideos ->
-                        updatedVideos.toList().filter { it.duration > 5 }
+                        updatedVideos.toList().filter { it.duration > 10 }
                     }
                 }
             }

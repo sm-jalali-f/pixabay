@@ -1,8 +1,8 @@
 ## Description
 
-**Cat** is an Android application that shows cat's breeds
+**Pixabay** is an Android application that shows videos and images from Pixabay API
 
-[!Note] Due to the temporary nature of the project, some experimental features have been used.(such
+> **_NOTE:_**  Due to the temporary nature of the project, some experimental features have been used.(such
 as `ExperimentalMaterial3Api`)
 
 ## Tech Stack
@@ -17,7 +17,8 @@ as `ExperimentalMaterial3Api`)
 - **Coroutine:** it is a concurrency design pattern that you can use on Android to simplify code that executes asynchronously
 - **ViewModel:** manage UI-related data in a lifecycle-conscious way
 - **Jetpack Compose:** modern toolkit for building native Android UI
-- **Coil:** image loading library
+- **Coil:** it is an image loading library
+- **ExoPlayer:** it is an open-source media player library for Android
 
 
 ## Screenshots
