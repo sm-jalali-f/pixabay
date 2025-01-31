@@ -42,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.freez.pixabay.core.util.Screen
 import com.freez.pixabay.domain.videodomain.entities.VideoPost
@@ -57,7 +58,7 @@ fun VideoListScreen(
     navController: NavController,
     viewModel: VideoListViewModel = hiltViewModel(),
 ) {
-    val loading = viewModel.loading.collectAsState()
+    val loading = viewModel.loading.collectAsStateWithLifecycle()
     Column {
         SearchField(viewModel = viewModel)
         if (loading.value) {
@@ -107,7 +108,7 @@ fun GridVideo(
     navController: NavController
 ) {
 
-    val videoList = viewModel.videoPost.collectAsState()
+    val videoList = viewModel.videoPost.collectAsStateWithLifecycle()
     val listState = rememberLazyGridState()
     LaunchedEffect(listState) {
         snapshotFlow { listState.layoutInfo }
@@ -172,7 +173,7 @@ fun VideoPostGridItem(
             ) {
                 DisplayImage(
                     id = videoPost.id,
-                    imageUrl = videoPost.mediumVideoThumbnailUrl,
+                    imageUrl = videoPost.getThumbnailUrl(),
                     contentDescription = videoPost.type,
                     modifier = Modifier.clip(
                         shape = RoundedCornerShape(

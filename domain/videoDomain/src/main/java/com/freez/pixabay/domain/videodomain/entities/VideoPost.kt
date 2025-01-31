@@ -37,4 +37,16 @@ data class VideoPost(
             return tinyVideoUrl
         return ""
     }
+
+    fun getThumbnailUrl(): String {
+        if (largeVideoThumbnailUrl.isNotEmpty())
+            return largeVideoThumbnailUrl
+        else if (mediumVideoThumbnailUrl.isNotEmpty())
+            return mediumVideoThumbnailUrl
+        else if (smallVideoThumbnailUrl.isNotEmpty())
+            return smallVideoThumbnailUrl
+        else if (tinyVideoThumbnailUrl.isNotEmpty())
+            return tinyVideoThumbnailUrl
+        return ""
+    }
 }

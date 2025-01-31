@@ -26,19 +26,22 @@ class VideoDetailViewModel @Inject constructor(
     private var _videoId = MutableStateFlow<Long?>(null)
     val videoId: StateFlow<Long?> get() = _videoId
 
-    init {
-    }
+    private var _loading = MutableStateFlow(true)
+    val loading: StateFlow<Boolean> get() = _loading
+
 
     private fun getVideoDetail(videoId: Long) {
+        _loading.value = true
         viewModelScope.launch {
             try {
                 videDetailUseCase.execute(videoId)
                     .collect { videoPostList ->
                         _videoPosts.value = videoPostList
+                        _loading.value = false
                     }
             } catch (e: Exception) {
                 e.printStackTrace()
-            } finally {
+                _loading.value = false
             }
         }
     }
