@@ -208,7 +208,7 @@ fun VideoPostGridItem(
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                videoPost.tags.forEach { tag ->
+                videoPost.tags.take(6).forEach { tag ->
                     Surface(
                         modifier = Modifier.padding(4.dp),
                         shape = RoundedCornerShape(16.dp),
