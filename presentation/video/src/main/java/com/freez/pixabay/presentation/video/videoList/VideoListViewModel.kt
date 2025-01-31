@@ -19,22 +19,48 @@ class VideoListViewModel @Inject constructor(
     private val searchLongVideoUseCase: SearchLongVideoListUseCase,
     private val bookmarkUseCase: BookmarkUseCase,
 
-) : ViewModel() {
+    ) : ViewModel() {
 
     private var _videoPosts = MutableStateFlow<List<VideoPost>>(emptyList())
     val videoPost: StateFlow<List<VideoPost>> get() = _videoPosts
 
+    private var _loading = MutableStateFlow(false)
+    val loading: StateFlow<Boolean> get() = _loading
+
+
+    private var searchQuery: String? = null
+    private var currentPage = 1
+    private var isLastPage = false
+
     private fun searchVideoPost(searchKey: String) {
-        viewModelScope.launch {
+        _loading.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(500)
             try {
-                searchLongVideoUseCase.execute(searchKey)
-                    .collect { videoPostList ->
-                        _videoPosts.value = videoPostList.toMutableList()
+                searchLongVideoUseCase.execute(searchKey, currentPage)
+                    .collect { newVideoList ->
+                        if (newVideoList.isEmpty()) {
+                            isLastPage = true
+                        } else {
+                            val currentList = _videoPosts.value.toMutableList()
+
+                            newVideoList.forEach { newCat ->
+                                val existingCatIndex =
+                                    currentList.indexOfFirst { it.id == newCat.id }
+                                if (existingCatIndex != -1) { // update exist data
+                                    currentList[existingCatIndex] = newCat
+                                } else {
+                                    currentList.add(newCat) //add new data
+                                }
+                            }
+                            _videoPosts.value = currentList
+                            currentPage++
+                        }
+                        _loading.value = false
                     }
             } catch (e: Exception) {
                 e.printStackTrace()
-            } finally {
-//                _loading.value = false
+                _loading.value = false
             }
         }
     }
@@ -42,7 +68,12 @@ class VideoListViewModel @Inject constructor(
     private var searchJob: Job? = null
 
     fun onSearchQueryChanged(query: String) {
+        if (searchQuery == query)
+            return
         searchJob?.cancel()
+        searchQuery = query
+        currentPage = 1
+        isLastPage = false
 
         searchJob = viewModelScope.launch {
             delay(500L)
@@ -64,6 +95,12 @@ class VideoListViewModel @Inject constructor(
     fun changeBookmark(videId: Long, bookmark: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             bookmarkUseCase.changeBookmark(videId, bookmark)
+        }
+    }
+
+    fun loadMoreData() {
+        if (!isLastPage) {
+            searchVideoPost(searchQuery ?: "")
         }
     }
 }

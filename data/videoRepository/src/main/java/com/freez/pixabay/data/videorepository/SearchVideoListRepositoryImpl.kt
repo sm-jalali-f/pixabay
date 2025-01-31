@@ -11,8 +11,8 @@ class SearchVideoListRepositoryImpl @Inject constructor(
     private val apiService: PixabayApiService,
 ) : SearchVideoListRepository {
 
-    override suspend fun getPostList(searchKey: String): Flow<List<VideoPost>> {
-        val result = apiService.searchVideo(searchKey).hits.map { videoData ->
+    override suspend fun getPostList(searchKey: String, page: Int): Flow<List<VideoPost>> {
+        val result = apiService.searchVideo(query = searchKey, page = page).hits.map { videoData ->
             VideoPost(
                 id = videoData.id,
                 duration = videoData.duration,

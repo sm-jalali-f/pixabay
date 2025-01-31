@@ -27,10 +27,10 @@ data class VideoPost(
 ) : Parcelable {
 
     fun getVideoUrl(): String {
-        if (mediumVideoUrl.isNotEmpty())
-            return mediumVideoUrl
-        else if (largeVideoUrl.isNotEmpty())
+        if (largeVideoUrl.isNotEmpty())
             return largeVideoUrl
+        else if (mediumVideoUrl.isNotEmpty())
+            return mediumVideoUrl
         else if (smallVideoUrl.isNotEmpty())
             return smallVideoUrl
         else if (tinyVideoUrl.isNotEmpty())

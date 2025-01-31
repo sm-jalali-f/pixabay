@@ -17,8 +17,8 @@ class SearchLongVideoListUseCaseImpl @Inject constructor(
 ) : SearchLongVideoListUseCase {
 
     @OptIn(FlowPreview::class)
-    override suspend fun execute(keySearch: String): Flow<List<VideoPost>> {
-        return searchPostListRepository.getPostList(keySearch)
+    override suspend fun execute(keySearch: String, page: Int): Flow<List<VideoPost>> {
+        return searchPostListRepository.getPostList(keySearch, page)
             .flatMapConcat { postList ->
                 postList.map { videoPost ->
                     bookmarkRepository.isVideBookmarked(videoPost.id)
