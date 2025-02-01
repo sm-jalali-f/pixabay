@@ -41,7 +41,6 @@ import androidx.media3.ui.PlayerView
 import com.freez.pixabay.presentation.video.R
 import com.freez.pixabay.presentation.video.common.DisplayImage
 import com.freez.pixabay.presentation.video.common.UserInfo
-import kotlinx.coroutines.delay
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -54,18 +53,17 @@ fun VideoDetailScreen(
     viewModel.setVideoId(videoId)
     val videoPost by viewModel.videoPost.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier
-        .padding(8.dp)
-        .verticalScroll(rememberScrollState())) {
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
         UserInfo(
             profileUrl = videoPost?.publisherUserImageUrl,
             profileName = videoPost?.publisherUserName,
             avatarSize = 50.dp,
             textStyle = MaterialTheme.typography.bodyLarge
         )
-//        videoPost?.getVideoUrl()?.let {
-//            VideoPlayerScreen(it)
-//        }
 
         Spacer(Modifier.height(5.dp))
         val loading = viewModel.loading.collectAsStateWithLifecycle()
@@ -95,13 +93,6 @@ fun VideoDetailScreen(
                     .fillMaxWidth()
                     .height(200.dp) // Set your desired height
             )
-//            PlayerSurface(
-//                player = exoPlayer,
-//                surfaceType = SURFACE_TYPE_SURFACE_VIEW,
-//                modifier = Modifier
-//                    .align(Alignment.CenterHorizontally)
-//                    .height(250.dp),
-//            )
         } else {
             DisplayImage(
                 id = videoPost?.id ?: 0,
@@ -207,31 +198,3 @@ fun AnalyticsItemsRow(modifier: Modifier = Modifier, likes: Int, comments: Int, 
         AnalyticItem(imageRes = R.drawable.ic_views, count = views)
     }
 }
-
-/*@Composable
-fun VideoPlayerScreen(videoUrl: String) {
-    val context = LocalContext.current
-    val player = ExoPlayer.Builder(context).build()
-    val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
-
-    LaunchedEffect(videoUrl) {
-        player.setMediaItem(mediaItem)
-        player.prepare()
-        player.play()
-    }
-
-    // Use AndroidView to embed ExoPlayer's PlayerView in Compose UI
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { context ->
-            PlayerView(context)
-        }
-    )
-
-    // Make sure to release the player when the composable is disposed
-    DisposableEffect(context) {
-        onDispose {
-            player.release()
-        }
-    }
-}*/
